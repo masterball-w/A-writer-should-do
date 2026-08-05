@@ -123,14 +123,14 @@
 
 ### 用母 Skill 蒸馏新书
 
-1. 将 `A-writer-should-do` 目录放置于 `.trae/skills/` 下
+1. 将 `A-writer-should-do` 目录放置于当前 IDE 的 Skill 目录下
 2. 提供单本图书的完整文本或章节文本
 3. Skill 自动按流水线执行特征提取、反AI扫描与校验
-4. 最终在 `.trae/skills/write-like-{作者}/` 下生成一套写作指导文件
+4. 最终在当前 IDE 的 Skill 目录下生成一套 `write-like-{作者}/` 写作指导文件
 
 ### 用子 Skill 指导仿写
 
-1. 将 `write-like-pha`（或其他生成的子 Skill）放置于 `.trae/skills/` 下
+1. 将 `write-like-pha`（或其他生成的子 Skill）放置于当前 IDE 的 Skill 目录下
 2. 调用该 Skill，要求按对应作者风格写作或校验文本
 3. 子 Skill 按八维度规则与种子文本库指导仿写，并通过🤖规则规避AI典型写法
 
