@@ -25,10 +25,12 @@
 | 层级 | 名称 | 角色 | 说明 |
 |---|---|---|---|
 | 母 Skill | `A-writer-should-do` | 特征蒸馏方法论 | 定义提取原则、流水线、维度细则、转换法则、模板与自检清单。本身不针对特定作者，是生成子 Skill 的"工厂"。调用时输入书籍文本，输出一套派生写作指导文件集。 |
-| 子 Skill | `write-like-pha` | 派生写作指导 | 由母 Skill 以《人生拒绝清单》（pha 著，程俐 译）为输入蒸馏生成的实例。针对特定作者 pha 的风格，提供可执行的写作规则与种子文本库，直接用于仿写。 |
+| 子 Skill | `write-like-pha` | 派生写作指导实例1 | 由母 Skill 以《人生拒绝清单》（pha 著，程俐 译）为输入蒸馏生成。针对 pha 的风格，提供可执行的写作规则与种子文本库，直接用于仿写。 |
+| 子 Skill | `write-like-zhouguoping` | 派生写作指导实例2 | 由母 Skill 以《周国平人生哲思录》为输入蒸馏生成，针对周国平的哲理散文风格。 |
+| 子 Skill | `write-like-yuhua` | 派生写作指导实例3 | 由母 Skill 以《我们生活在巨大的差距里》（余华 著）为输入蒸馏生成，针对余华的散文杂文风格。 |
 
 - **母 Skill 不可直接用于仿写**：它只负责"从书中提取特征并生成指导规则"，不包含任何具体作者的写作规则。
-- **子 Skill 由母 Skill 生成**：每输入一本新书，母 Skill 即可生成一个对应的 `write-like-{作者}` 子 Skill。本仓库收录的 `write-like-pha` 是首个实例。
+- **子 Skill 由母 Skill 生成**：每输入一本新书，母 Skill 即可生成一个对应的 `write-like-{作者}` 子 Skill。本仓库平行收录 `write-like-pha`、`write-like-zhouguoping`、`write-like-yuhua` 三个实例。
 - **后续可扩展**：用户可用母 Skill 对其他书籍执行蒸馏，生成更多 `write-like-{作者}` 子 Skill，各子 Skill 相互独立。
 
 ## 工作流程
@@ -130,7 +132,7 @@
 
 ### 用子 Skill 指导仿写
 
-1. 将 `write-like-pha`（或其他生成的子 Skill）放置于当前 IDE 的 Skill 目录下
+1. 将 `write-like-pha`、`write-like-zhouguoping`、`write-like-yuhua`（或其他生成的子 Skill）放置于当前 IDE 的 Skill 目录下
 2. 调用该 Skill，要求按对应作者风格写作或校验文本
 3. 子 Skill 按八维度规则与种子文本库指导仿写，并通过🤖规则规避AI典型写法
 
@@ -140,16 +142,18 @@
 A-writer-should-do/
 ├── SKILL.md              # 母 Skill 完整定义（执行原则 / 流水线 / 提取细则 / 转换法则 / 模板 / 自检清单）
 ├── README.md             # 本说明
-└── write-like-pha/       # 子 Skill 实例（基于《人生拒绝清单》蒸馏生成）
-    ├── SKILL.md          # 子 Skill 主调度文件（风格总纲 / 执行顺序 / 校验清单 / 种子文本库）
-    ├── 01-style-personality.md
-    ├── 02-structure-layout.md
-    ├── 03-theme-material.md
-    ├── 04-rhythm-density.md
-    ├── 05-logic-texture.md
-    ├── 06-word-sentence.md
-    ├── 07-rhetoric.md
-    └── 08-cognition-value.md
+├── write-like-pha/       # 子 Skill 实例1（基于《人生拒绝清单》蒸馏生成）
+│   ├── SKILL.md          # 子 Skill 主调度文件（风格总纲 / 执行顺序 / 校验清单 / 种子文本库）
+│   ├── 01-style-personality.md
+│   ├── 02-structure-layout.md
+│   ├── 03-theme-material.md
+│   ├── 04-rhythm-density.md
+│   ├── 05-logic-texture.md
+│   ├── 06-word-sentence.md
+│   ├── 07-rhetoric.md
+│   └── 08-cognition-value.md
+├── write-like-zhouguoping/   # 子 Skill 实例2（基于《周国平人生哲思录》蒸馏生成，同构8+1文件）
+└── write-like-yuhua/         # 子 Skill 实例3（基于《我们生活在巨大的差距里》蒸馏生成，同构8+1文件）
 ```
 
 ## 适用文体
