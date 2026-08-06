@@ -36,7 +36,11 @@
 ## 工作流程
 
 ```
-输入书籍文本
+输入书籍文本（epub / mobi / azw3 电子书文件需先经步骤0脚本提取）
+    │
+    ▼
+步骤0  源文本准备（extract_epub / extract_mobi / extract_azw3 脚本 →
+        {书名}_fulltext.txt 纯正文 + {书名}_toc.txt 索引式目录）
     │
     ▼
 步骤1  前置判定与边界声明（文体类型 / 文本属性 / 评估范围）
@@ -61,6 +65,9 @@
     │
     ▼
 步骤7  特征转规则 → 生成派生写作指导 Skill 文件集
+    │
+    ▼
+步骤8  写作产出落盘（按派生 Skill 生成的文章以 {文章标题}.md 保存到当前工作目录）
     │
     ▼
 输出：write-like-{作者}/  （1个主调度文件 + 8个维度指导文件）
@@ -126,7 +133,7 @@
 ### 用母 Skill 蒸馏新书
 
 1. 将 `A-writer-should-do` 目录放置于当前 IDE 的 Skill 目录下
-2. 提供单本图书的完整文本或章节文本
+2. 提供单本图书的完整文本或章节文本；若为 epub / mobi / azw3 电子书文件，先执行 `scripts/` 下对应提取脚本（见 SKILL.md「十二、脚本使用指南」），产出 `{书名}_fulltext.txt` 与 `{书名}_toc.txt`
 3. Skill 自动按流水线执行特征提取、反AI扫描与校验
 4. 最终在当前 IDE 的 Skill 目录下生成一套 `write-like-{作者}/` 写作指导文件
 
@@ -135,6 +142,7 @@
 1. 将 `write-like-pha`、`write-like-zhouguoping`、`write-like-yuhua`（或其他生成的子 Skill）放置于当前 IDE 的 Skill 目录下
 2. 调用该 Skill，要求按对应作者风格写作或校验文本
 3. 子 Skill 按八维度规则与种子文本库指导仿写，并通过🤖规则规避AI典型写法
+4. 成稿按母 Skill「步骤8：写作产出落盘」规则，以 `{文章标题}.md` 保存到当前工作目录
 
 ## 文件说明
 
@@ -142,6 +150,11 @@
 A-writer-should-do/
 ├── SKILL.md              # 母 Skill 完整定义（执行原则 / 流水线 / 提取细则 / 转换法则 / 模板 / 自检清单）
 ├── README.md             # 本说明
+├── scripts/              # 配套提取脚本（步骤0：电子书转纯文本）
+│   ├── extract_epub.py   # EPUB 提取（纯标准库：正文 + 索引式 TOC）
+│   ├── extract_mobi.py   # MOBI 提取（mobi 包解包，回退 calibre）
+│   ├── extract_azw3.py   # AZW3 提取（calibre 转 epub，回退 mobi 包）
+│   └── _text_clean.py    # 共用清洗模块：去除 style/script/head 等，只保留正文
 ├── write-like-pha/       # 子 Skill 实例1（基于《人生拒绝清单》蒸馏生成）
 │   ├── SKILL.md          # 子 Skill 主调度文件（风格总纲 / 执行顺序 / 校验清单 / 种子文本库）
 │   ├── 01-style-personality.md
@@ -158,7 +171,7 @@ A-writer-should-do/
 
 ## 适用文体
 
-小说、散文、杂文、社科论述、传记等各类文体的完整书籍文本或章节文本。针对不同文体，Skill 内置差异化权重指引，自动调整各维度的提取深度。
+小说、散文、杂文、社科论述、传记等各类文体的完整书籍文本或章节文本。纯文本（txt/md）可直接输入；EPUB / MOBI / AZW3 等电子书格式由 `scripts/` 下的提取脚本转为纯文本（去除 style 等非正文元素，只保留正文与索引式 TOC）后再进入流水线。针对不同文体，Skill 内置差异化权重指引，自动调整各维度的提取深度。
 
 ## 质量保障
 
