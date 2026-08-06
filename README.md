@@ -28,9 +28,11 @@
 | 子 Skill | `write-like-pha` | 派生写作指导实例1 | 由母 Skill 以《人生拒绝清单》（pha 著，程俐 译）为输入蒸馏生成。针对 pha 的风格，提供可执行的写作规则与种子文本库，直接用于仿写。 |
 | 子 Skill | `write-like-zhouguoping` | 派生写作指导实例2 | 由母 Skill 以《周国平人生哲思录》为输入蒸馏生成，针对周国平的哲理散文风格。 |
 | 子 Skill | `write-like-yuhua` | 派生写作指导实例3 | 由母 Skill 以《我们生活在巨大的差距里》（余华 著）为输入蒸馏生成，针对余华的散文杂文风格。 |
+| 子 Skill | `write-like-yuhua-novel` | 派生写作指导实例4 | 由母 Skill 以《活着》（余华 著）为输入蒸馏生成，针对余华的小说风格（冷峻克制、民间口语、白描死亡、黑色幽默）。与 `write-like-yuhua`（散文版）并存：小说创作任务一律使用本 Skill。 |
+| 子 Skill | `write-like-liuzhenyun` | 派生写作指导实例5 | 由母 Skill 以《一日三秋》（刘震云 著）为输入蒸馏生成，针对刘震云的小说风格（以笑话写哭、日常物丈量生死、链条对话、绕圈归因）。 |
 
 - **母 Skill 不可直接用于仿写**：它只负责"从书中提取特征并生成指导规则"，不包含任何具体作者的写作规则。
-- **子 Skill 由母 Skill 生成**：每输入一本新书，母 Skill 即可生成一个对应的 `write-like-{作者}` 子 Skill。本仓库平行收录 `write-like-pha`、`write-like-zhouguoping`、`write-like-yuhua` 三个实例。
+- **子 Skill 由母 Skill 生成**：每输入一本新书，母 Skill 即可生成一个对应的 `write-like-{作者}` 子 Skill。本仓库平行收录 `write-like-pha`、`write-like-zhouguoping`、`write-like-yuhua`、`write-like-yuhua-novel`、`write-like-liuzhenyun` 五个实例。
 - **后续可扩展**：用户可用母 Skill 对其他书籍执行蒸馏，生成更多 `write-like-{作者}` 子 Skill，各子 Skill 相互独立。
 
 ## 工作流程
@@ -139,7 +141,7 @@
 
 ### 用子 Skill 指导仿写
 
-1. 将 `write-like-pha`、`write-like-zhouguoping`、`write-like-yuhua`（或其他生成的子 Skill）放置于当前 IDE 的 Skill 目录下
+1. 将 `write-like-pha`、`write-like-zhouguoping`、`write-like-yuhua`、`write-like-yuhua-novel`、`write-like-liuzhenyun`（或其他生成的子 Skill）放置于当前 IDE 的 Skill 目录下
 2. 调用该 Skill，要求按对应作者风格写作或校验文本
 3. 子 Skill 按八维度规则与种子文本库指导仿写，并通过🤖规则规避AI典型写法
 4. 成稿按母 Skill「步骤8：写作产出落盘」规则，以 `{文章标题}.md` 保存到当前工作目录
@@ -166,7 +168,9 @@ A-writer-should-do/
 │   ├── 07-rhetoric.md
 │   └── 08-cognition-value.md
 ├── write-like-zhouguoping/   # 子 Skill 实例2（基于《周国平人生哲思录》蒸馏生成，同构8+1文件）
-└── write-like-yuhua/         # 子 Skill 实例3（基于《我们生活在巨大的差距里》蒸馏生成，同构8+1文件）
+├── write-like-yuhua/         # 子 Skill 实例3（基于《我们生活在巨大的差距里》蒸馏生成，同构8+1文件）
+├── write-like-yuhua-novel/   # 子 Skill 实例4（基于《活着》蒸馏生成，同构8+1文件）
+└── write-like-liuzhenyun/    # 子 Skill 实例5（基于《一日三秋》蒸馏生成，同构8+1文件）
 ```
 
 ## 适用文体
