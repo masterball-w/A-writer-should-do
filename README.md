@@ -1,41 +1,75 @@
-# A-writer-should-do
+<div align="center">
 
-> 书籍写作特征蒸馏 — 从单本图书文本中系统化提取作者写作特征，并生成可调用的写作指导 Skill，内置反AI特征检测机制
+# 📖 A-writer-should-do
+
+**书籍写作特征蒸馏** — 从单本图书文本中系统化提取作者的全维度写作特征，<br>生成可直接调用的写作指导 Skill，内置反AI特征检测机制
+
+[![Stars](https://img.shields.io/github/stars/masterball-w/A-writer-should-do?style=flat-square&logo=github&color=yellow)](https://github.com/masterball-w/A-writer-should-do/stargazers)
+[![Forks](https://img.shields.io/github/forks/masterball-w/A-writer-should-do?style=flat-square&logo=git&color=orange)](https://github.com/masterball-w/A-writer-should-do/forks)
+[![Issues](https://img.shields.io/github/issues/masterball-w/A-writer-should-do?style=flat-square&color=red)](https://github.com/masterball-w/A-writer-should-do/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/masterball-w/A-writer-should-do?style=flat-square&logo=git&color=blue)
+](https://github.com/masterball-w/A-writer-should-do/commits/main)
+[![Repo Size](https://img.shields.io/github/repo-size/masterball-w/A-writer-should-do?style=flat-square&color=green)]()
+[![Languages](https://img.shields.io/github/languages/count/masterball-w/A-writer-should-do?style=flat-square&color=lightgrey)]()
+
+![Skill](https://img.shields.io/badge/Skill-Writing%20Style%20Distillation-orange?style=flat-square)
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python&logoColor=white)
+![Markdown](https://img.shields.io/badge/Markdown-000000?style=flat-square&logo=markdown&logoColor=white)
+![Anti-AI](https://img.shields.io/badge/Anti--AI-Built--in%20Detection-brightgreen?style=flat-square)
+![Instances](https://img.shields.io/badge/Style%20Instances-5-blueviolet?style=flat-square)
+
+</div>
 
 ---
 
-## 标签
+## 📑 目录
 
-`skill` `writing-analysis` `author-style` `writing-guide` `book-analysis` `style-extraction` `text-analysis` `style-transfer` `writing-assistant` `literary-analysis` `skill-creator` `trae-skill` `anti-ai-detection`
+- [概述](#-概述)
+- [母子 Skill 界定](#️-母子-skill-界定)
+- [子 Skill 实例一览](#-子-skill-实例一览)
+- [工作流程](#-工作流程)
+- [八维度输出结构](#-八维度输出结构)
+- [反AI三层机制](#️-反ai三层机制)
+- [快速开始](#-快速开始)
+- [文件说明](#-文件说明)
+- [适用文体](#-适用文体)
+- [质量保障](#-质量保障)
 
 ---
 
-## 概述
+## ✨ 概述
 
-**A-writer-should-do** 是一个 TRAE Skill（母 Skill），用于从单本图书的完整文本或章节文本中，分层级、系统化地提取作者的全维度写作特征，随后将所有特征转化为可执行的写作指导规则，最终输出一套派生写作指导 Skill 文件集（子 Skill）。
+**A-writer-should-do** 是一个写作特征蒸馏 Skill（母 Skill），用于从单本图书的完整文本或章节文本中，分层级、系统化地提取作者的全维度写作特征，随后将所有特征转化为可执行的写作指导规则，最终输出一套派生写作指导 Skill 文件集（子 Skill）。
 
 该 Skill 遵循「宏观→中观→微观→深层」的递进顺序，通过七大核心执行原则（由整体到局部、先分类再提取、频次验证、主动降噪、文本锚定、边界声明、反AI特征优先）保证特征提取的准确性与可复用性，排除文体格式、题材要求、时代语言、译者风格等外部干扰。
 
-与普通风格提取工具不同，本 Skill 内置**反AI特征检测机制**：在提取作者特征的同时，同步识别作者写作中天然对抗AI生成模式的特征（如不规则句长分布、非工整的论证结构、未经打磨的粗糙用词、碎片化段落节奏等），并将这些反AI特征优先转化为硬性写作规则，确保生成的写作指导不仅形似原作者风格，还能通过AI文本检测。
+> 💡 与普通风格提取工具不同，本 Skill 内置**反AI特征检测机制**：在提取作者特征的同时，同步识别作者写作中天然对抗AI生成模式的特征（如不规则句长分布、非工整的论证结构、未经打磨的粗糙用词、碎片化段落节奏等），并将这些反AI特征优先转化为硬性写作规则与 AI 典型写法黑名单，确保生成的写作指导不仅形似原作者风格，还能规避AI典型写法。
 
-## 母子 Skill 界定
+## 🏗️ 母子 Skill 界定
 
 本仓库包含两层 Skill，须明确区分：
 
 | 层级 | 名称 | 角色 | 说明 |
-|---|---|---|---|
-| 母 Skill | `A-writer-should-do` | 特征蒸馏方法论 | 定义提取原则、流水线、维度细则、转换法则、模板与自检清单。本身不针对特定作者，是生成子 Skill 的"工厂"。调用时输入书籍文本，输出一套派生写作指导文件集。 |
-| 子 Skill | `write-like-pha` | 派生写作指导实例1 | 由母 Skill 以《人生拒绝清单》（pha 著，程俐 译）为输入蒸馏生成。针对 pha 的风格，提供可执行的写作规则与种子文本库，直接用于仿写。 |
-| 子 Skill | `write-like-zhouguoping` | 派生写作指导实例2 | 由母 Skill 以《周国平人生哲思录》为输入蒸馏生成，针对周国平的哲理散文风格。 |
-| 子 Skill | `write-like-yuhua` | 派生写作指导实例3 | 由母 Skill 以《我们生活在巨大的差距里》（余华 著）为输入蒸馏生成，针对余华的散文杂文风格。 |
-| 子 Skill | `write-like-yuhua-novel` | 派生写作指导实例4 | 由母 Skill 以《活着》（余华 著）为输入蒸馏生成，针对余华的小说风格（冷峻克制、民间口语、白描死亡、黑色幽默）。与 `write-like-yuhua`（散文版）并存：小说创作任务一律使用本 Skill。 |
-| 子 Skill | `write-like-liuzhenyun` | 派生写作指导实例5 | 由母 Skill 以《一日三秋》（刘震云 著）为输入蒸馏生成，针对刘震云的小说风格（以笑话写哭、日常物丈量生死、链条对话、绕圈归因）。 |
+|:---:|---|---|---|
+| 🏭 母 Skill | `A-writer-should-do` | 特征蒸馏方法论 | 定义提取原则、流水线、维度细则、转换法则、模板与自检清单。本身不针对特定作者，是生成子 Skill 的"工厂"。输入书籍文本，输出一套派生写作指导文件集 |
+| 📄 子 Skill | `write-like-{作者}` | 派生写作指导实例 | 由母 Skill 以单本书为输入蒸馏生成，针对该作者的风格提供可执行的写作规则与种子文本库，直接用于仿写 |
 
 - **母 Skill 不可直接用于仿写**：它只负责"从书中提取特征并生成指导规则"，不包含任何具体作者的写作规则。
-- **子 Skill 由母 Skill 生成**：每输入一本新书，母 Skill 即可生成一个对应的 `write-like-{作者}` 子 Skill。本仓库平行收录 `write-like-pha`、`write-like-zhouguoping`、`write-like-yuhua`、`write-like-yuhua-novel`、`write-like-liuzhenyun` 五个实例。
-- **后续可扩展**：用户可用母 Skill 对其他书籍执行蒸馏，生成更多 `write-like-{作者}` 子 Skill，各子 Skill 相互独立。
+- **子 Skill 由母 Skill 生成**：每输入一本新书，母 Skill 即可生成一个对应的 `write-like-{作者}` 子 Skill，各子 Skill 相互独立、平行收录于本仓库。
 
-## 工作流程
+## 🎨 子 Skill 实例一览
+
+| # | 子 Skill | 蒸馏来源 | 风格定位 |
+|:---:|---|---|---|
+| 1 | `write-like-pha` | 《人生拒绝清单》（pha 著，程俐 译） | "废柴"自嘲式言说、否定式命题、人生减负哲学 |
+| 2 | `write-like-zhouguoping` | 《周国平人生哲思录》 | 冲淡平和的哲理散文、灵魂叙事 |
+| 3 | `write-like-yuhua` | 《我们生活在巨大的差距里》 | 余华散文杂文：冷静的社会观察、经验叙事 |
+| 4 | `write-like-yuhua-novel` | 《活着》 | 余华小说：冷峻克制、民间口语、白描死亡、黑色幽默 |
+| 5 | `write-like-liuzhenyun` | 《一日三秋》 | 刘震云：以笑话写哭、日常物丈量生死、链条对话、绕圈归因 |
+
+> 📌 同一作者的不同文体可分别蒸馏、并存使用（如 `write-like-yuhua` 与 `write-like-yuhua-novel`）：散文任务用散文版，小说任务用小说版。
+
+## 🔄 工作流程
 
 ```
 输入书籍文本（epub / mobi / azw3 电子书文件需先经步骤0脚本提取）
@@ -75,7 +109,7 @@
 输出：write-like-{作者}/  （1个主调度文件 + 8个维度指导文件）
 ```
 
-## 输出结构
+## 📐 八维度输出结构
 
 派生 Skill 以文件集形式输出，主 `SKILL.md` 规定执行顺序，八个维度各为独立文件：
 
@@ -90,47 +124,28 @@
 | 7 | `07-rhetoric.md` | 修辞策略与表达技法 | 选择修辞类型、意象体系、感官调度 |
 | 8 | `08-cognition-value.md` | 认知模式与价值底色 | 校验思维路径、价值立场、辩证程度 |
 
-每个维度文件包含四类规则：遵循（✅ 硬性规则，频次≥3处验证通过）、避免（❌ 排除规则，来自降噪项）、可选（💡 局部技法，频次不足3次）、AI特征规避（🤖 优先级最高，对抗AI典型写法）。每条规则附注原文例证作为示范样本。
+每个维度文件包含四类规则：
 
-## 单句提取结果示例
+| 标记 | 规则类型 | 来源 |
+|:---:|---|---|
+| ✅ | 遵循（硬性规则） | 频次≥3处验证通过的核心特征 |
+| ❌ | 避免（排除规则） | 降噪项 |
+| 💡 | 可选（局部技法） | 频次不足3次 |
+| 🤖 | AI特征规避（优先级最高） | 反AI特征清单 + AI典型写法黑名单 |
 
-以下为以《人生拒绝清单》（pha 著，程俐 译）为输入时，各维度的单句特征提取结果（完整指导见 `write-like-pha/` 子 Skill）：
+每条规则附注原文例证作为示范样本。
 
-> **维度1 · 整体写作风格与人格底色**
-> 以"废柴"自居的自嘲式言说姿态，刻意放低言说者位置，以示弱换取读者的松弛感与信任感。
+## 🛡️ 反AI三层机制
 
-> **维度2 · 写作框架与谋篇布局**
-> "否定式"总分总结构，36篇统一以"不×××"命题，从前言的"99%的必做之事都可以不做"起笔，至后记的"请列出想要做什么的人生清单"翻转收束。
+| 层级 | 机制 | 说明 |
+|:---:|---|---|
+| 1️⃣ | 反AI特征识别（步骤5.5） | 从节奏、结构、用词、句式、质感五个维度扫描作者文本中天然对抗AI模式的特征 |
+| 2️⃣ | 🤖规避规则与AI写法黑名单（法则6-7） | 句式（A1-A11）、用词（B1-B8）、结构（C1-C6）、质感（D1-D5）四类黑名单全局强制收录，逐条校验 |
+| 3️⃣ | 人写模拟技术 + 种子文本改写法（法则8-9） | E1-E8 八项人写特征注入技术；禁止从零生成，必须以原文种子段落为模板改写 |
 
-> **维度3 · 叙事/论证节奏与信息密度**
-> 极短段落制，大量单句成段，每篇约1000-1500字仅传达一个核心观点，以低信息密度换取高亲和度。
+> 🔍 黑名单示例：**A11「短直简」速记式描写** — 禁止"照得人脸上发青""把东西攥在手里，攥得发白"这类无过程、无细节、无叙事功能的状态派发式描写。
 
-> **维度4 · 行文逻辑与内容肌理**
-> 归纳式推理路径，从"我"的具体处境说起提炼一般原则，引用书籍、名人语录、朋友话语佐证，末尾以"不过""当然"辩证留余地收束。
-
-> **维度5 · 主题取向与内容选择偏好**
-> 以"不做"为方法的人生减负哲学，密集调用漫画/动画、互联网生活经验、心理学/社会学概念三类素材，刻意回避任何奋斗叙事。
-
-> **维度6 · 词句习惯与语言惯性**
-> 口语化书面语，"废柴""浑身没劲""好麻烦啊"等自贬词汇高频复现，以"让我们……吧"祈使句作为篇末收束锚点。（注：含译者风格影响）
-
-> **维度7 · 修辞策略与表达技法**
-> 悖论式命题为核心修辞引擎，"懒惰是美德""降低期待更轻松""舍弃才能获得"构成最高辨识度的表达标识。
-
-> **维度8 · 认知模式与价值底色**
-> 相对主义认识论，认为"人类的所有言论不过是立场之争"，将成败归因于运气而非努力，以"差不多活着就好"的务实温和覆盖底层悲观。
-
-## 核心执行原则
-
-1. **由整体到局部，逐层递进** — 严格按宏观→中观→微观→深层顺序执行
-2. **先分类，再提取** — 第一步判定文体，调用对应权重模板
-3. **频次验证** — 特征在全书≥3处不同章节重复出现方可判定为核心特征
-4. **主动降噪** — 区分作者个人特征与文体/题材/时代/译本/汇编等非作者因素
-5. **文本锚定** — 所有特征必须匹配原文具体例证
-6. **边界声明** — 明确标注"基于单本书提取"，不扩大为作者毕生风格
-7. **反AI特征优先** — 同步识别对抗AI生成模式的特征，优先转化为硬性规则
-
-## 使用方式
+## 🚀 快速开始
 
 ### 用母 Skill 蒸馏新书
 
@@ -141,12 +156,12 @@
 
 ### 用子 Skill 指导仿写
 
-1. 将 `write-like-pha`、`write-like-zhouguoping`、`write-like-yuhua`、`write-like-yuhua-novel`、`write-like-liuzhenyun`（或其他生成的子 Skill）放置于当前 IDE 的 Skill 目录下
+1. 将任一子 Skill（如 `write-like-yuhua-novel`）放置于当前 IDE 的 Skill 目录下
 2. 调用该 Skill，要求按对应作者风格写作或校验文本
 3. 子 Skill 按八维度规则与种子文本库指导仿写，并通过🤖规则规避AI典型写法
 4. 成稿按母 Skill「步骤8：写作产出落盘」规则，以 `{文章标题}.md` 保存到当前工作目录
 
-## 文件说明
+## 📁 文件说明
 
 ```
 A-writer-should-do/
@@ -157,8 +172,8 @@ A-writer-should-do/
 │   ├── extract_mobi.py   # MOBI 提取（mobi 包解包，回退 calibre）
 │   ├── extract_azw3.py   # AZW3 提取（calibre 转 epub，回退 mobi 包）
 │   └── _text_clean.py    # 共用清洗模块：去除 style/script/head 等，只保留正文
-├── write-like-pha/       # 子 Skill 实例1（基于《人生拒绝清单》蒸馏生成）
-│   ├── SKILL.md          # 子 Skill 主调度文件（风格总纲 / 执行顺序 / 校验清单 / 种子文本库）
+├── write-like-pha/           # 子 Skill 实例1（基于《人生拒绝清单》蒸馏生成）
+│   ├── SKILL.md              # 子 Skill 主调度文件（风格总纲 / 执行顺序 / 校验清单 / 种子文本库）
 │   ├── 01-style-personality.md
 │   ├── 02-structure-layout.md
 │   ├── 03-theme-material.md
@@ -173,12 +188,23 @@ A-writer-should-do/
 └── write-like-liuzhenyun/    # 子 Skill 实例5（基于《一日三秋》蒸馏生成，同构8+1文件）
 ```
 
-## 适用文体
+## 🎯 适用文体
 
 小说、散文、杂文、社科论述、传记等各类文体的完整书籍文本或章节文本。纯文本（txt/md）可直接输入；EPUB / MOBI / AZW3 等电子书格式由 `scripts/` 下的提取脚本转为纯文本（去除 style 等非正文元素，只保留正文与索引式 TOC）后再进入流水线。针对不同文体，Skill 内置差异化权重指引，自动调整各维度的提取深度。
 
-## 质量保障
+## ✅ 质量保障
 
-- 两阶段输出：先完成内部特征分析报告（校验用），再转化为派生 Skill
-- 反AI三层机制：反AI特征识别（步骤5.5）→ 🤖规避规则与AI写法黑名单（法则6-7）→ 人写模拟技术 + 种子文本改写法（法则8-9）
-- 四组自检清单：分析报告自检（9.1）、派生文件集自检（9.2）、反AI特征规避自检（9.3）、种子文本改写法自检（9.4）
+- **两阶段输出**：先完成内部特征分析报告（校验用），再转化为派生 Skill
+- **反AI三层机制**：反AI特征识别（步骤5.5）→ 🤖规避规则与AI写法黑名单（法则6-7）→ 人写模拟技术 + 种子文本改写法（法则8-9）
+- **四组自检清单**：分析报告自检（9.1）、派生文件集自检（9.2）、反AI特征规避自检（9.3）、种子文本改写法自检（9.4）
+- **叙事逻辑自检**：写作产出后强制执行称谓辈分、对话因果、设定一致性、时间金额四项独立校验
+
+---
+
+<div align="center">
+
+**📖 从一本书，蒸馏一种文风。**
+
+如果这个项目对你有帮助，欢迎 ⭐ Star 支持一下
+
+</div>
