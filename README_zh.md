@@ -126,11 +126,9 @@ pip install mobi          # MOBI，以及 AZW3 的回退路径
 
 ### 1. 准备纯文本
 
-`.txt` 和 `.md` 可以直接交给技能。电子书要先建好输出目录。脚本不会创建这个目录。
+`.txt` 和 `.md` 可以直接交给技能。电子书的提取脚本会在 `-o` 指向的目录不存在时自动创建它。
 
 ```bash
-mkdir -p "$HOME/books/out"
-
 python3 scripts/extract_epub.py "$HOME/books/book.epub" -o "$HOME/books/out"
 python3 scripts/extract_mobi.py "$HOME/books/book.mobi" -o "$HOME/books/out"
 python3 scripts/extract_azw3.py "$HOME/books/book.azw3" -o "$HOME/books/out"
@@ -224,7 +222,6 @@ A-writer-should-do/
 - 母技能模板和七个子技能的文件名、章节组织和规则格式都不一样。
 - 母技能第 3 步要求用脚本、按同一文本功能统计句长分位数、短句（≤15 字）占比、长句（≥50 字）占比、用词和标点，并且不准凭经验编造数字。`scripts/` 里只有电子书提取脚本。
 - `extract_mobi.py` 走 `mobi` 包解包时，不把 NCX 链接映射到字符偏移，而是把第 *i* 条目录到第 *i* 个 HTML 文件的起点。EPUB 3 的 nav 解析把每条目录的层级都记成 0。
-- `-o` 指向一个还不存在的目录时，脚本会在打开输出文件时失败。
 - 子技能的种子文本库引用了原书段落，并要求仿结构、不仿原句。母技能禁止把原句写进子技能。两套说法都在仓库里。
 - 这里没有自动的「AI 文本检测器」。维度 6 是智能体逐条核对的清单。
 

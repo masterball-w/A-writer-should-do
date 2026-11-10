@@ -126,11 +126,9 @@ There is no `requirements.txt` and no installable package.
 
 ### 1. Make plain text
 
-`.txt` and `.md` can be passed through as they are. For an ebook, create the output directory first. The scripts do not create it.
+`.txt` and `.md` can be passed through as they are. For an ebook, the scripts create the `-o` directory if it does not exist.
 
 ```bash
-mkdir -p "$HOME/books/out"
-
 python3 scripts/extract_epub.py "$HOME/books/book.epub" -o "$HOME/books/out"
 python3 scripts/extract_mobi.py "$HOME/books/book.mobi" -o "$HOME/books/out"
 python3 scripts/extract_azw3.py "$HOME/books/book.azw3" -o "$HOME/books/out"
@@ -224,7 +222,6 @@ These are gaps in the current tree, not planned behavior:
 - Parent template and the seven children use different filenames, different section schemes, and different rule formats.
 - Step 3 of the parent skill tells the agent to measure sentence-length percentiles, short-sentence share (≤15 characters), long-sentence share (≥50), words, and punctuation **with a script**, on samples of the same function, and not to invent the numbers. `scripts/` only contains the ebook extractors.
 - `extract_mobi.py`, on the `mobi` package path, does not map NCX links to character offsets. It pairs TOC entry *i* with the start of HTML file *i*. The EPUB 3 nav parser records every entry at depth 0.
-- Passing `-o` to a directory that does not exist makes the script fail when it opens the output file.
 - Child seed libraries quote passages from the source books and tell the agent to copy their structure, not their sentences. The parent skill forbids transferring original sentences into a child skill. Both statements are in the repo.
 - Nothing here is an automated detector of AI-written text. Dimension 6 is a list the agent checks by hand.
 

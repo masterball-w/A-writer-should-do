@@ -194,6 +194,7 @@ def main():
             print('正文与目录已按 %s 前缀输出到：%s' % (stem, outdir))
             return
 
+        os.makedirs(outdir, exist_ok=True)
         full_path = os.path.join(outdir, '%s_fulltext.txt' % stem)
         toc_path = os.path.join(outdir, '%s_toc.txt' % stem)
         with open(full_path, 'w', encoding='utf-8', newline='\n') as f:

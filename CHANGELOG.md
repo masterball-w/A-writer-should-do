@@ -7,6 +7,16 @@ Versions follow the git tags. `v2.1.0` is the latest tag on `main`. `2.2.0` belo
 
 本文件记录仓库里确实存在的行为。`v2.1.0` 是 `main` 上最新的标签。下面的 `2.2.0` 是下一次发布，打标签之前还不是 git tag。没有 `v0.1.0`。
 
+## [Unreleased]
+
+### Fixed
+
+- `extract_epub.py` and `extract_mobi.py` create the `-o` output directory if it does not exist, instead of failing when they open the output file. `extract_azw3.py` gets the same behavior through them.
+
+### 修复
+
+- `-o` 指向的目录不存在时，`extract_epub.py` 和 `extract_mobi.py` 会自动创建它，不再在打开输出文件时失败。`extract_azw3.py` 经由这两个脚本得到同样的行为。
+
 ## [2.2.0] - 2026-10-23
 
 Documentation release. The parent skill, the seven child skills, and the extractor scripts are unchanged.

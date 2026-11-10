@@ -252,6 +252,7 @@ def main():
     toc_lines = ['%d\t%s%s\t%d' % (i + 1, '  ' * depth, title, offset)
                  for i, (depth, title, offset) in enumerate(toc_entries)]
 
+    os.makedirs(outdir, exist_ok=True)
     full_path = os.path.join(outdir, '%s_fulltext.txt' % stem)
     toc_path = os.path.join(outdir, '%s_toc.txt' % stem)
     with open(full_path, 'w', encoding='utf-8', newline='\n') as f:
