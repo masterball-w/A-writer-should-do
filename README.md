@@ -7,41 +7,43 @@ An agent skill that reads one book and compiles a second skill for drafting, rew
 [![Stars](https://img.shields.io/github/stars/masterball-w/A-writer-should-do?style=flat-square&logo=github)](https://github.com/masterball-w/A-writer-should-do/stargazers)
 [![Tag](https://img.shields.io/github/v/tag/masterball-w/A-writer-should-do?style=flat-square&label=tag)](https://github.com/masterball-w/A-writer-should-do/releases/tag/v2.1.0)
 ![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python&logoColor=white)
-![Child skills](https://img.shields.io/badge/child%20skills-7-blueviolet?style=flat-square)
+![Child skills](https://img.shields.io/badge/child%20skills-8-blueviolet?style=flat-square)
 
 This repository is a set of `SKILL.md` instructions for an agent host (Cursor, Claude Code, or another host that loads a skill folder). It is not a model, a Python library, or a program that restyles text by itself. The Python files only turn EPUB, MOBI, and AZW3 files into plain text.
 
-The current git tag is [`v2.1.0`](https://github.com/masterball-w/A-writer-should-do/releases/tag/v2.1.0), and it points at `main`. The parent skill and the seven included child skills do not use the same filenames. See [Two layouts in this repository](#two-layouts-in-this-repository).
+The current git tag is [`v2.1.0`](https://github.com/masterball-w/A-writer-should-do/releases/tag/v2.1.0), and it points at `main`. The parent template now produces three files. `write-like-moyan` and `write-like-changshi` use it; the other six children still use the earlier six-dimension layout. See [Two layouts in this repository](#two-layouts-in-this-repository).
 
 ## What it is
 
-The parent skill, [`SKILL.md`](SKILL.md) (`name: a-writer-should-do`), is the distillation procedure. You give the agent the full text of one book. It samples the book by function, keeps only patterns that have evidence, and writes a child folder `write-like-{author-or-work}/` plus a report `{书名}_声纹蒸馏报告.md` in the working directory.
+The parent skill, [`SKILL.md`](SKILL.md) (`name: a-writer-should-do`), is the distillation procedure. You give the agent the full text of one book. It samples the book by function, keeps only patterns that have evidence, and writes a three-file child folder `write-like-{author-or-work}/`.
 
-A child skill is what you load when you want new prose. The seven folders already in the repo are finished children. Each one says it was distilled from a single book, and each one says it does not cover that author's other books.
+A child skill is what you load when you want new prose. The eight folders already in the repo are finished children. Each one says it was distilled from a single book, and each one says it does not cover that author's other books.
 
 The parent skill's own rules:
 
 - One book stands for that work, that period, and that genre. A stable author-level fingerprint needs the same mechanism in at least three works from different periods.
-- A core fingerprint needs at least three pieces of evidence from different chapters and at least one counterexample. A count is a reason to look, not a reason to keep the pattern.
+- A rule needs at least two pieces of same-function evidence and one recorded exception. A single instance goes into the sample index, not into a rule.
 - Do not copy sentences, proper names, characters, plots, original metaphors, or real biographical episodes into new writing.
-- Words such as "cold" or "light" are not instructions. They are checked only after architecture, material, and sentence behavior are already in the draft.
+- Words such as "cold" or "light" are not instructions. They are checked only after the language and discourse rules have shaped the draft.
 
 ## Features
 
 What the parent skill actually specifies:
 
-- **Six-step distillation**, after an extract-and-clean step: decide the work's boundary, build a stratified sample set with metadata, extract four fingerprint layers, check evidence and counterexamples, compile operation cards, then run a regression on three short samples (800–1500 Chinese characters: a low-conflict scene, a high-pressure scene, and a memory / argument / exposition scene).
-- **Four layers, kept separate.** Architecture (what state a unit enters and leaves), content (what is selected and how much space it gets), language (measured per function: narration, dialogue, memory, argument), and a final "qi-yun" check that must still be visible after the signature words are deleted.
-- **Operation cards** with one format: input, steps, observable output, pass/fail check, rework, evidence id, and where the card does not apply. Low-frequency observations stay in the report and do not become generation rules.
-- **Four grades inside a child skill:** A, global constraints loaded before the draft; B, three to five scene cards per scene; C, the language profile for the current function; D, end-of-draft checks, including common AI failures. D-level negative samples are not loaded while the draft is being written.
-- **Shared working tables:** a character-interest table, a scene card, a paragraph card, and a dialogue-action table. The dialogue table is for analyzing continuous quoted speech the source book already has. If the book reports speech instead, the table is not a generation step.
-- **Where files go.** The report stays in the working directory. The child skill goes to a directory you name; if you do not name one, the agent asks. A finished piece is saved as `{title}.md` in the working directory, and a name clash gets a numeric suffix instead of a silent overwrite.
+- **Seven-step distillation**, after an extract-and-clean step: decide the work's boundary, sample by function, extract language and discourse fingerprints, screen for significance and write negative fingerprints, compile rule cards into three files, then calibrate with a 300–500 character sample, a read-aloud pass, a signature-word deletion check, and a metric comparison, and finally run an AI-tone check with minimal rewriting.
+- **Input handling.** Front matter (TOC, title pages, copyright, prefaces, afterwords, appendices, notes) is stripped. The agent decides whether the book is a story collection or a novel: collections use 4–5 stories at 2,000–4,000 characters each; novels with a TOC take a 2,000–4,000 character block per chapter, capped at 8–12 chapters when the book runs long; novels without a TOC use 6–10 spaced continuous blocks. Every block is continuous prose, with gaps between blocks. Close-reading samples are continuous paragraph groups of 200–800 characters, not single paragraphs: short dialogue paragraphs stay as they are, and paragraphs over 800 characters are cut at sentence boundaries.
+- **Two fingerprint layers, not four.** Language covers phonology and rhythm, morphology and word classes, sentence patterns (topic-comment, parataxis, clause chaining), punctuation grammar, and discourse linking. Discourse covers person and presentation, narrator markers, emotion handled through syntax, irony through register, metaphor domains, and opening/closing syntax. The numbers describe the source; they are diagnostic, not generation quotas.
+- **Significance screening.** Candidates must pass four filters: coverage (at least 10% of paragraphs or 3 per 1,000 characters), baseline comparison, distinctiveness (at least twice the genre baseline), and position verification. Anything below the line becomes an optional note or a negative rule. The profile also records at least three negative fingerprints (what the source never does) and audits AI-common constructions such as "not X but Y" and "first/second/finally"; source-low patterns go on the blacklist.
+- **Rule cards** use one format: a conditional action ("when X, do Y"), source frequency, a generation ceiling, at least two same-function evidence ids, and a recorded exception. Per-paragraph quotas are forbidden; only 3–5 hard rules survive, ranked by distinctiveness.
+- **AI-tone check.** Based on the public two-round study behind `lieflat-less-ai-tone` (629 comparative texts plus 270 paired same-facts rewrites). Every suspicious feature is first checked against the source profile: if the book already uses it and the draft stays within twice the source rate, it is not treated as AI tone. Remaining hits pass three layers (countable, semantic, human review) and six levels (A/B/C/F/X/H). Rewrites follow minimal edit, information conservation, no manufactured unevenness, fixed structure, style reference first, no changes to quotations, and a re-test. X-level items such as body questions, ordinal subheads, "this means" restatement, list-introducing colons, and generalization are never changed.
+- **No story-layer rules.** Architecture, character interests, scene state transitions, plots, motifs, material selection, and content instructions such as how to treat death are excluded. Every rule must pass a subject-swap test: replace the subject matter with something unrelated, and the rule must still hold.
+- **Where files go.** The child skill goes to a directory you name; if you do not name one, the agent asks. A finished piece is saved as `{title}.md` in the working directory, and a name clash gets a numeric suffix instead of a silent overwrite.
 
-What each shipped child skill contains (this is the older layout, still the files on disk):
+What the six older children contain (`write-like-moyan` and `write-like-changshi` now use the three-file layout):
 
 - A dispatcher `SKILL.md` with a Literary DNA Summary, a short style charter, the load order, up to five Common Failure Modes (`错误` / `原因` / `修正`), a checklist, a seed-text library used as structure reference, and a boundary note.
 - Six dimension files, loaded in order: spirit, motifs, narrative mechanism, rhythm, technique and negative space, then a final edit.
-- In dimensions 1–5, rules are marked ✅ (follow), ❌ (avoid), 💡 (optional technique), and 🤖 (AI-pattern avoidance for that dimension). A rule sometimes cites a count from the book. The child files do not define one numeric cutoff that every ✅ must meet. The three-instance rule is the parent skill's.
+- In dimensions 1–5, rules are marked ✅ (follow), ❌ (avoid), 💡 (optional technique), and 🤖 (AI-pattern avoidance for that dimension). A rule sometimes cites a count from the book. The child files do not define one numeric cutoff that every ✅ must meet. The two-instance-plus-one-exception rule is the parent skill's.
 - Inside one child, the A1–A13 table lives only in dimension 6 (`06-generation-editor.md`): sentence patterns A1–A13, diction B1–B8, structure C1–C6, texture D1–D5, then a reality check, three edit questions (what to delete, where to pause, where to leave a gap), human-writing moves E1–E8, a narrative-logic pass, and an anti-imitation section. Dimensions 1–5 still have their own 🤖 lines. The list is a checklist for the agent, not a classifier.
 
 Ebook extraction, which both the parent skill and the scripts implement:
@@ -66,18 +68,14 @@ New distillations follow the parent [`SKILL.md`](SKILL.md). It tells the agent t
 
 ```text
 write-like-{author-or-work}/
-├── SKILL.md
-├── 01-world-and-material.md
-├── 02-character-and-information.md
-├── 03-architecture-and-scene.md
-├── 04-voice-and-syntax.md
-├── 05-expression-and-space.md
-└── 06-generation-and-validation.md
+├── SKILL.md            # boundary, charter, hard constraints, failure modes, load order
+├── 01-style-profile.md # language profile, discourse, sample index
+└── 02-validation.md    # AI blacklist, negative samples, acceptance checklist
 ```
 
-It also asks for a `_meta/` directory of sample records (JSON or CSV) during analysis. No `_meta/` example is checked in.
+No separate distillation report is written; the evidence lives in the sample index at the end of `01-style-profile.md`. A `_meta/` sample directory is no longer used.
 
-The seven children below were built earlier. Their files are `01-author-spirit.md`, `02-theme-worldview.md`, `03-narrative-mechanism.md`, `04-language-rhythm.md`, `05-expression-and-space.md`, and `06-generation-editor.md`. Load those files when you use these children. Do not rename them to the parent template; nothing in the repo maps one name to the other.
+`write-like-moyan` and `write-like-changshi` are examples of this layout. The other six children below were built earlier. Their files are `01-author-spirit.md`, `02-theme-worldview.md`, `03-narrative-mechanism.md`, `04-language-rhythm.md`, `05-expression-and-space.md`, and `06-generation-editor.md`. Load those files when you use them; do not rename them to the new template.
 
 | Child folder | Book named in that skill | Scope the skill itself states |
 |---|---|---|
@@ -87,7 +85,8 @@ The seven children below were built earlier. Their files are `01-author-spirit.m
 | `write-like-yuhua-novel` | 《活着》 | The novel. The skill says to use this folder, not `write-like-yuhua`, for fiction. |
 | `write-like-liuzhenyun` | 《一日三秋》 | That novel's telling voice. Not his other novels. |
 | `write-like-lijieren` | 《死水微澜》 | That novel. Not the later two books of the trilogy. |
-| `write-like-moyan` | 《蛙》 | Later Mo Yan: reported speech, a letter frame, suspended judgment. The skill says it does not cover the density of 《红高粱》 or 《生死疲劳》. |
+| `write-like-changshi` | 《常识》, Thomas Paine, translated by 武建勋 and 申梦琪 | The Chinese translation's argumentative prose. Not Paine's English original. |
+| `write-like-moyan` | 《蛙》 | Later Mo Yan: reported speech, a letter frame, suspended judgment. Migrated to the three-file template. |
 
 The [v2.1.0 release notes](https://github.com/masterball-w/A-writer-should-do/releases/tag/v2.1.0) and the previous README describe a four-genre rule set (fiction, argumentative nonfiction, essay, practical writing) applied at analysis, extraction, generation, and checking. Those sections are not in `SKILL.md` or in the child files. This README does not treat them as current behavior.
 
@@ -146,9 +145,9 @@ Use ~/books/out/书名_toc.txt as the table of contents.
 Save the write-like-* folder to ~/.cursor/skills/.
 ```
 
-You can also invoke it by name (`/a-writer-should-do` on hosts that work that way). If you leave the destination out, the skill says to ask before writing the folder. The report is written to the working directory.
+You can also invoke it by name (`/a-writer-should-do` on hosts that work that way). If you leave the destination out, the skill says to ask before writing the folder.
 
-A finished child from this procedure uses the new filenames in [Two layouts](#two-layouts-in-this-repository), not the filenames of the seven existing children.
+A finished child from this procedure uses the three-file template in [Two layouts](#two-layouts-in-this-repository).
 
 ### 3. Write with a child skill
 
@@ -157,7 +156,7 @@ Use write-like-zhouguoping to write an essay of about 1500 Chinese characters
 on what a person still does in a time of machine-written text.
 ```
 
-The shipped children tell the agent to read the Literary DNA Summary first, draft with dimensions 1–5 in order, then run the whole of dimension 6. The piece is saved as `{文章标题}.md` in the working directory. The parent skill adds: if that name exists, append a number, do not overwrite.
+The six older children tell the agent to read the Literary DNA Summary first, draft with dimensions 1–5 in order, then run the whole of dimension 6. `write-like-moyan` and `write-like-changshi` instead load `SKILL.md`, take the matching profile from `01-style-profile.md`, and check with `02-validation.md`. The piece is saved as `{文章标题}.md` in the working directory. The parent skill adds: if that name exists, append a number, do not overwrite.
 
 The same folders also describe narrower jobs: rewrite a passage, or check a draft against the checklist and the failure modes.
 
@@ -204,30 +203,33 @@ A-writer-should-do/
 │   ├── extract_mobi.py
 │   ├── extract_azw3.py
 │   └── _text_clean.py
+├── references/
+│   └── ai-tone-check.md     # AI-tone protocol for Step 6
 ├── write-like-pha/          # 1 dispatcher + 6 dimension files
 ├── write-like-zhouguoping/  # same, plus one sample essay
 ├── write-like-yuhua/
 ├── write-like-yuhua-novel/
 ├── write-like-liuzhenyun/
 ├── write-like-lijieren/
-└── write-like-moyan/
+├── write-like-changshi/     # 3 files: SKILL.md, profile, validation
+└── write-like-moyan/        # 3 files: SKILL.md, profile, validation
 ```
 
-Each child folder is the dispatcher plus `01` through `06`. There is no test suite and no `requirements.txt`. The license is MIT; see below.
+Six child folders are the dispatcher plus `01` through `06`; `write-like-moyan` and `write-like-changshi` are the three-file template. There is no test suite and no `requirements.txt`. The license is MIT; see below.
 
 ## Limitations
 
 These are gaps in the current tree, not planned behavior:
 
-- Parent template and the seven children use different filenames, different section schemes, and different rule formats.
-- Step 3 of the parent skill tells the agent to measure sentence-length percentiles, short-sentence share (≤15 characters), long-sentence share (≥50), words, and punctuation **with a script**, on samples of the same function, and not to invent the numbers. `scripts/` only contains the ebook extractors.
+- The three-file template is used by `write-like-moyan` and `write-like-changshi`; the other six children still use the six-dimension layout and rule format.
+- Step 3 of the parent skill requires sentence-length distributions, short- and long-sentence shares, vocabulary, and punctuation, measured on same-function samples and not invented. `scripts/` only contains the ebook extractors.
 - `extract_mobi.py`, on the `mobi` package path, does not map NCX links to character offsets. It pairs TOC entry *i* with the start of HTML file *i*. The EPUB 3 nav parser records every entry at depth 0.
-- Child seed libraries quote passages from the source books and tell the agent to copy their structure, not their sentences. The parent skill forbids transferring original sentences into a child skill. Both statements are in the repo.
-- Nothing here is an automated detector of AI-written text. Dimension 6 is a list the agent checks by hand.
+- The six older children's seed libraries quote passages from the source books and tell the agent to copy their structure, not their sentences. The parent skill forbids transferring original sentences into a child skill. Both statements are in the repo.
+- Nothing here is an automated classifier of AI-written text. Step 6 of the parent skill and the older children's dimension 6 are checklists the agent applies by hand; the output describes text features, not the author.
 
 ## Contributing
 
-Bug reports and feature requests use the templates in [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE/). Pull requests that fix an extractor, correct a rule against the book it cites, or bring the parent template and the children into one layout are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before sending a large skill folder: do not commit a full copyrighted book, and do not add DRM-removal instructions.
+Bug reports and feature requests use the templates in [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE/). Pull requests that fix an extractor, correct a rule against the book it cites, or migrate the remaining children to the three-file template are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before sending a large skill folder: do not commit a full copyrighted book, and do not add DRM-removal instructions.
 
 ## License
 

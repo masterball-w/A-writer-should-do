@@ -9,13 +9,45 @@ Versions follow the git tags. `v2.1.0` is the latest tag on `main`. `2.2.0` belo
 
 ## [Unreleased]
 
+### Added
+
+- Added `write-like-changshi`, a three-file skill distilled from the Chinese translation of Thomas Paine's *Common Sense*: 25 samples, an import receipt, language/discourse profiles, and a validation file.
+
 ### Fixed
 
 - `extract_epub.py` and `extract_mobi.py` create the `-o` output directory if it does not exist, instead of failing when they open the output file. `extract_azw3.py` gets the same behavior through them.
 
+### Changed
+
+- Parent `SKILL.md` is now a two-layer, three-file distillation spec covering language and discourse only. Architecture, content selection, the four shared tables, `_meta/`, the separate distillation report, and the three-sample regression are removed. Rule cards now need an action, two same-function evidence ids, and one recorded exception.
+- Statistics are now diagnostic only: sentence length, paragraph share, and word-frequency numbers describe the source and are no longer generation quotas. Added a voice-feel summary, 3–5 breathing-point observations, a read-aloud pass, and a signature-word deletion check.
+- Removed all story-layer rules from the template and the Mo Yan sample, including content instructions about death, moral judgment, and what to leave unwritten. Rules now cover phonology, morphology, syntax, punctuation, discourse linking, register, and rhetoric only. Every rule must pass a subject-swap test. The Mo Yan profile adds Chinese-specific morphology, syntax, and discourse layers.
+- Added input-handling rules: strip front matter (TOC, prefaces, afterwords, appendices), decide whether the book is a story collection or a novel, take 4–5 stories from a collection, 2,000–4,000 character blocks per chapter for a novel with a TOC (capped at 8–12 chapters), and 6–10 spaced continuous blocks for a novel without a TOC. The profile now records an import receipt with coverage. Close-reading samples are continuous paragraph groups of 200–800 characters: short paragraphs stay intact, and paragraphs over 800 characters are cut at sentence boundaries; paragraph-level metrics must come from the import corpus or full text, not from merged samples.
+- `write-like-moyan` migrated to the three-file layout (`SKILL.md`, `01-style-profile.md`, `02-validation.md`). The other six children are unchanged.
+- Added a significance-screening step (3.5) to the parent skill: coverage, baseline, distinctiveness, and position filters; a ban on per-paragraph quotas; at least three negative fingerprints; and an audit of AI-common constructions such as "not X but Y", "first/second/finally", and "in conclusion". Low-frequency source patterns now go on the blacklist instead of becoming recommended syntax. Calibration now includes a metric comparison: any output metric more than twice the source frequency must be revised.
+- `write-like-changshi` rebuilt against the new screening rules. "Not X but Y" drops from a per-paragraph frame to a full-text maximum of one (source: 4/585 sentences, 0.68%); paragraph-final rhetorical questions drop from a rule to a negative fingerprint (source: 3/143 paragraphs, 2.1%); punctuation ceilings added (semicolon/colon 3, dash 1.5, quotes 2 per 1,000 characters); measurement kept diagnostic.
+- Added Step 6, an AI-tone check after style calibration, plus `references/ai-tone-check.md`. Suspicious features are first compared with the source profile; source-level usage within twice the source rate is exempt. Remaining hits use three layers (countable, semantic, human review) and six levels (A/B/C/F/X/H), with seven minimal-rewrite principles. `write-like-changshi/02-validation.md` now embeds a compact check table. The protocol paraphrases public findings from `larashero3-dotcom/lieflat-less-ai-tone` (CC BY-NC 4.0); no code is copied.
+- `README.md` and `README_zh.md` now describe both layouts and mark `write-like-moyan` as the migrated example.
+
+### 新增
+
+- 新增 `write-like-changshi`：从托马斯·潘恩《常识》中译本蒸馏的三文件技能，含 25 个样本、导入回执、语言/话语剖面与校验文件。
+
 ### 修复
 
 - `-o` 指向的目录不存在时，`extract_epub.py` 和 `extract_mobi.py` 会自动创建它，不再在打开输出文件时失败。`extract_azw3.py` 经由这两个脚本得到同样的行为。
+
+### 变更
+
+- 母技能 `SKILL.md` 简化为两层、三文件的蒸馏规程：只提取语言与叙述话语。架构、内容取舍、四张表、`_meta/`、独立蒸馏报告和三段回归测试均已移除。规则卡改为「动作 + 两处同功能证据 + 一处例外」。
+- 统计值改为只作诊断：句长、段落占比和词频只描述原作，不再作为生成配额。新增语感总述、3–5 条呼吸点、朗读检查与删标志词检查。
+- 母技能与莫言样板移除全部故事层规则，包括死亡怎么写、人物该不该被审判、什么该留白等内容指令。规则只覆盖语音、词法、句法、标点、篇章衔接、语域与修辞，并须通过换题材测试。莫言剖面补充了汉语词法、句法与篇章层。
+- 新增导入处理：剥离目录、前言、后记、附录等附属部分；判断短篇集或长篇；短篇集取 4–5 篇；有目录的长篇每章取 2,000–4,000 字符连续块（章数过多时抽 8–12 章）；无目录的长篇跳跃抽 6–10 块并留间隔。剖面新增导入回执与覆盖率。细读样本改为 200–800 字的连续段落群：短段保留原样，超过 800 字的自然段按句边界截取；段落级指标必须用导入语料或全文统计，不能从合并样本反推。
+- `write-like-moyan` 迁移到三文件布局（`SKILL.md`、`01-style-profile.md`、`02-validation.md`）。其余六个子技能未改动。
+- 母技能新增显著性筛选步骤（3.5）：覆盖率、基线、区分度、位置四道筛；禁止「每段至少一个 X」类配额；至少 3 条负向指纹；审计「不是……而是……」「首先/其次/最后」「综上所述」等 AI 高发句式。原书低频的模式改为进黑名单，不再作为推荐句式。校准增加指标对照：成稿任一指标超过源频率 2 倍即返修。
+- 按新筛法重建 `write-like-changshi`：「不是……而是……」从每段框架降为全文最多 1 次（源书 4/585 句，0.68%）；段末反问从规则改为负向指纹（源书 3/143 段，2.1%）；新增标点上限（分号/冒号 3、破折号 1.5、引号 2，每千字）；统计仍只作诊断。
+- 母技能新增 Step 6「AI 味校验与最小改写」，并新增 `references/ai-tone-check.md`：可疑特征先对源书基线，源书本来就有且成稿未超 2 倍的不判 AI 味；其余按脚本可数、语义判读、人审三层检查，分 A/B/C/F/X/H 六级处置，改写遵守七条最小改动原则。`write-like-changshi/02-validation.md` 内嵌精简校验表。协议只转述 `larashero3-dotcom/lieflat-less-ai-tone` 的公开研究结论（CC BY-NC 4.0），不复制代码。
+- `README.md` 与 `README_zh.md` 同步说明两套布局，并标明 `write-like-moyan` 为迁移样板。
 
 ## [2.2.0] - 2026-10-23
 
